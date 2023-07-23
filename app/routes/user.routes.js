@@ -7,6 +7,7 @@ const auth = require("../middleware/auth");
 const TOKEN = require("../config/auth.config");
 
 //*Probando con promesas y sincrónico.
+//* Registro de una nuevo usuario, acceso público
 router.post("/api/signup", verifySignUp, (req, res) => {
 	const { firstName, lastName, email, password } = req.body;
 	if (!(firstName && lastName && email && password)) {
@@ -40,7 +41,8 @@ router.post("/api/signup", verifySignUp, (req, res) => {
 });
 
 // lógica del registro Login
-//* Más claro y fácil asíncrono.
+//* Más claro y fácil asíncrono, además de demostrar que también se usarlo.
+//* Inicio de sesión en la API, acceso público
 router.post("/api/signin", async (req, res) => {
 	// lógica del inicio de sesión
 	try {
@@ -76,7 +78,7 @@ router.post("/api/signin", async (req, res) => {
 	}
 });
 
-//*Probando con promesas y sincrónico.
+//* Lista información del usuario según id, acceso por medio de token, previamente iniciado sesión
 router.get("/api/user/:id", auth, (req, res) => {
 	const { id } = req.params;
 	User.findUserById(id)
@@ -95,7 +97,8 @@ router.get("/api/user/:id", auth, (req, res) => {
 		});
 });
 
-//*Probando con promesas y sincrónico.
+//* Lista información de todos los usuarios y los Bootcamp registrados, acceso por medio de token,
+//* previamente iniciado sesión
 router.get("/api/user/", auth, (req, res) => {
 	User.findAll()
 		.then((user) => {
@@ -113,14 +116,15 @@ router.get("/api/user/", auth, (req, res) => {
 		});
 });
 
-//*Probando con promesas y sincrónico.
+//* Actualiza los campos de firstName y lastName de un usuario según su id, 
+//* acceso por medio de token, previamente iniciado sesión 
 router.put("/api/user/:id", auth, (req, res) => {
-  const id = req.params.id;
+	const id = req.params.id;
 	const { firstName, lastName } = req.body;
 	User.updateUserById(id, firstName, lastName)
 		.then((user) => {
 			if (user != 0) {
-				return res.status(200).json({user: user});
+				return res.status(200).json({ user: user });
 			} else {
 				return res.status(404).send(`No se pueden leer los datos de ${id}`);
 			}
@@ -133,6 +137,7 @@ router.put("/api/user/:id", auth, (req, res) => {
 		});
 });
 
+//* Elimina el usuario según id, acceso por medio de token, previamente iniciado sesión
 router.delete("/api/user/:id", auth, (req, res) => {
 	const id = req.params.id;
 	User.deleteUserById(id)
