@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const db = require("../models");
 const User = require("../controllers/user.controller");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -121,7 +120,7 @@ router.put("/api/user/:id", auth, (req, res) => {
 	User.updateUserById(id, firstName, lastName)
 		.then((user) => {
 			if (user != 0) {
-				return res.status(200).send(`Usuario ID ${id} actualizado.`);
+				return res.status(200).json({user: user});
 			} else {
 				return res.status(404).send(`No se pueden leer los datos de ${id}`);
 			}

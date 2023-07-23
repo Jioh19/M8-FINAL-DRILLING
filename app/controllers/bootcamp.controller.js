@@ -28,18 +28,18 @@ exports.addUser = (bootcampId, userId) => {
     .then((bootcamp) => {
       if (!bootcamp) {
         console.log("No se encontro el Bootcamp!");
-        return null;
+        return {code: 404, message: "No se encontró el Bootcamp"};
       }
       return User.findByPk(userId).then((user) => {
         if (!user) {
           console.log("Usuario no encontrado!");
-          return null;
+          return {code: 404, message: "No se encontró el usuario"};
         }
         bootcamp.addUser(user);
         console.log('***************************')
         console.log(` Agregado el usuario id=${user.id} al bootcamp con id=${bootcamp.id}`);
         console.log('***************************')
-        return bootcamp;
+        return {code: 201, result: bootcamp};
       });
     })
     .catch((err) => {
@@ -61,7 +61,11 @@ exports.findById = (Id) => {
       }, ],
     })
     .then(bootcamp => {
-      return bootcamp
+      if (!bootcamp) {
+				console.log("No se encontro el Bootcamp!");
+				return { code: 404, message: "No se encontró el Bootcamp" };
+			}
+      return { code: 200, result: bootcamp };
     })
     .catch(err => {
       console.log(`>> Error mientras se encontraba el bootcamp: ${err}`)
@@ -70,16 +74,7 @@ exports.findById = (Id) => {
 
 // obtener todos los Usuarios incluyendo los Bootcamp
 exports.findAll = () => {
-  return Bootcamp.findAll({
-    include: [{
-      model: User,
-      as: "users",
-      attributes: ["id", "firstName", "lastName"],
-      through: {
-        attributes: [],
-      }
-    }, ],
-  }).then(bootcamps => {
+  return Bootcamp.findAll({}).then(bootcamps => {
     return bootcamps
   }).catch((err) => {
     console.log(">> Error Buscando los Bootcamps: ", err);

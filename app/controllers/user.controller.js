@@ -9,7 +9,7 @@ exports.createUser = (user) => {
 		firstName: user.firstName,
 		lastName: user.lastName,
 		email: user.email,
-    password: user.password,
+		password: user.password,
 	})
 		.then((user) => {
 			console.log(`>> Se ha creado el usuario: ${JSON.stringify(user, null, 4)}`);
@@ -32,7 +32,7 @@ exports.findUserById = (userId) => {
 };
 
 exports.findUserByEmail = (email) => {
-	return User.findOne({where: { email }})
+	return User.findOne({ where: { email } })
 		.then((users) => {
 			return users;
 		})
@@ -40,7 +40,6 @@ exports.findUserByEmail = (email) => {
 			console.log(`>> Error mientras se encontraba los usuarios: ${err}`);
 		});
 };
-
 
 // obtener todos los Usuarios incluyendo los bootcamp
 exports.findAll = () => {
@@ -74,8 +73,8 @@ exports.updateUserById = (userId, fName, lName) => {
 		}
 	)
 		.then((user) => {
-			console.log(`>> Se ha actualizado el usuario: ${JSON.stringify(user, null, 4)}`);
-			return user;
+			console.log(`>> Se ha actualizado el usuario: ${JSON.stringify({ id: userId, firstName: fName, lastName: lName }, null, 4)}`);
+			return ({ id: userId, firstName: fName, lastName: lName });
 		})
 		.catch((err) => {
 			console.log(`>> Error mientras se actualizaba el usuario: ${err}`);

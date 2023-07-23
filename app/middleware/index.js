@@ -13,9 +13,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Acceso a la ruta User
 app.use("/", rutaUser);
-//RUTA POR DEFECTO
 
+// Acceso a la ruta bootcamp
+app.use("/api/bootcamp", rutaBootcamp);
+
+//RUTA POR DEFECTO
 // Acceso a la ruta raíz vacía
 app.get("/", auth, (req, res) => {
 	res.status(200).send("Bienvenido, se ha validado correctamente esta ruta /inicio con el Token JWT 🙌");
