@@ -97,5 +97,5 @@ db.sequelize
 	.then(() => {
 		app.listen(3000, () => console.log("Servidor escuchando en puerto 3000"));
 		console.log("Eliminando y resincronizando la base de datos.");
-		run();
+		//run();
 	});
